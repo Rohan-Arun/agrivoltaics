@@ -1,16 +1,43 @@
-# This is a sample Python script.
+# This is the main program for the AgriVoltaics Project
+# Author: Rohan Arun
+# Date: 2023/07/23
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Description
+#
+import math
+
+from scipy.stats import norm
+import random
+
+DISCOUNT = 0.03
+DRIFT = 0.01
+VOLATILITY = 0.05
+INIT_VAL = 100
+
+NUM_MONTHS = 12
+
+def generate_value(input_val, month):
+    #1st parameter
+    val_1 = (DRIFT - (VOLATILITY**2)/2.0) * month / 12.0
+
+    #2nd parameter
+    rand_val = random.random()
+    norm_inv = norm.ppf(rand_val, 0, math.sqrt(month / 12.0))
+    val_2 =- VOLATILITY * norm_inv
+
+    val = input_val * math.exp(val_1 + val_2)
+
+    return (val)
+
 
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    print(f'Discount {DISCOUNT}')  # Press ⌘F8 to toggle the breakpoint
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    print(generate_value(100, 1))
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
